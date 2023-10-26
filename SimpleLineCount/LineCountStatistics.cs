@@ -3,7 +3,7 @@ namespace SimpleLineCount;
 /// <summary>
 /// Line count statistics
 /// </summary>
-internal class LineCountStatistics
+public class LineCountStatistics
 {
 	/// <summary>
 	/// Number of code lines

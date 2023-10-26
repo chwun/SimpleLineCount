@@ -3,7 +3,7 @@ namespace SimpleLineCount;
 /// <summary>
 /// Data for a source file language
 /// </summary>
-internal class SourceFileLanguage
+public class SourceFileLanguage
 {
 	/// <summary>
 	/// Language name (should be unique)

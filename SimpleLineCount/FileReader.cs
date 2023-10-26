@@ -5,7 +5,7 @@ namespace SimpleLineCount;
 /// <summary>
 /// Class for reading all relevant source files
 /// </summary>
-internal class FileReader
+public class FileReader : IFileReader
 {
 	private readonly IFileAccess fileAccess;
 	private readonly ILineCounting lineCounting;
@@ -16,8 +16,15 @@ internal class FileReader
 		this.lineCounting = lineCounting;
 	}
 
-	public async IAsyncEnumerable<SourceFile> ReadFilesAsync(LineCountSettings settings)
+	/// <summary>
+	/// Parses the files specified by the given settings object into an enumerable of source files
+	/// </summary>
+	/// <param name="settings">settings</param>
+	/// <returns>list of source files</returns>
+	public async Task<List<SourceFile>> ReadFilesAsync(LineCountSettings settings)
 	{
+		List<SourceFile> files = new();
+
 		var languages = GetLanguages();
 		var languageMapping = CreateFileExtensionMapping(languages);
 
@@ -50,9 +57,11 @@ internal class FileReader
 				string[] content = await fileAccess.ReadAllLinesAsync(sourceFile.FileName);
 				lineCounting.CountLines(sourceFile, content);
 
-				yield return sourceFile;
+				files.Add(sourceFile);
 			}
 		}
+
+		return files;
 	}
 
 	/// <summary>
@@ -67,7 +76,7 @@ internal class FileReader
 			new()
 			{
 				Name = "C#",
-				FileExtensions = new() { "cs", "csx" },
+				FileExtensions = new() { ".cs", ".csx" },
 				SingleLineCommentToken = "//",
 				MultiLineCommentTokens = ("/*", "*/")
 			}

@@ -1,34 +1,37 @@
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-namespace SimpleLineCount
+namespace SimpleLineCount;
+
+/// <summary>
+/// Command implementation for line counting
+/// </summary>
+internal class LineCountCommand : AsyncCommand<LineCountSettings>
 {
-	/// <summary>
-	/// Command implementation for line counting
-	/// </summary>
-	internal class LineCountCommand : AsyncCommand<LineCountSettings>
+	/// <inheritdoc />
+	public override async Task<int> ExecuteAsync(CommandContext context, LineCountSettings settings)
 	{
-		/// <inheritdoc />
-		public override async Task<int> ExecuteAsync(CommandContext context, LineCountSettings settings)
+		if (!Directory.Exists(settings.Directory))
 		{
-			if (!Directory.Exists(settings.Directory))
+			AnsiConsole.MarkupLine("[red]Error: Invalid directory[/]");
+			return 1;
+		}
+
+		await AnsiConsole
+			.Status()
+			.Spinner(Spinner.Known.Star)
+			.SpinnerStyle(Style.Parse("green bold"))
+			.StartAsync("Parsing files", async ctx =>
 			{
-				OutputErrorMessage("Invalid directory");
-				return 1;
-			}
+				IFileReader fileReader = new FileReader(new Helpers.FileAccess(), new LineCounting());
+				var files = (await fileReader.ReadFilesAsync(settings)).ToList();
+				AnsiConsole.MarkupLine($"[green]Successfully parsed {files.Count} files[/]");
 
-			
+				ctx.Status("Creating report");
 
-			return 0;
-		}
+				AnsiConsole.MarkupLine("[green]Successfully created report[/]");
+			});
 
-		/// <summary>
-		/// Writes the given error message to the console
-		/// </summary>
-		/// <param name="message">error message</param>
-		private void OutputErrorMessage(string message)
-		{
-			AnsiConsole.MarkupLine($"[red]Error: {message}[/]");
-		}
+		return 0;
 	}
 }

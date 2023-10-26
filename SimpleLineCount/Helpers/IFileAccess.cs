@@ -3,7 +3,7 @@ namespace SimpleLineCount.Helpers;
 /// <summary>
 /// Interface for abstracting access to <see cref="File"/> and <see cref="Directory"/>
 /// </summary>
-internal interface IFileAccess
+public interface IFileAccess
 {
 	/// <summary>
 	/// Returns an enumerable collection of full file names in the directory specified by <paramref name="path"/>

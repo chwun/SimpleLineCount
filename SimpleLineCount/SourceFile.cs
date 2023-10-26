@@ -3,7 +3,7 @@ namespace SimpleLineCount;
 /// <summary>
 /// Data for one single source file
 /// </summary>
-internal class SourceFile
+public class SourceFile
 {
 	/// <summary>
 	/// File name
