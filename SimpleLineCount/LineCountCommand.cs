@@ -66,7 +66,7 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 		}
 
 		AnsiConsole.Clear();
-		AnsiConsole.MarkupLine($"Report generation for [italic]\"{settings.Directory}\"[/] took [aqua]{duration.TotalSeconds:0.000}s[/] ([green]{numberOfFiles}[/] files included)");
+		AnsiConsole.MarkupLine($"Report generation for [italic]\"{settings.Directory}\"[/] took [aqua]{duration.TotalSeconds:0.000}s[/] ([green]{numberOfFiles}[/] files parsed)");
 		AnsiConsole.MarkupLine("");
 
 		OutputLineStatistics(report.Lines);
@@ -128,7 +128,7 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 
 		var languagesPanel = new Panel(languagesTable)
 		{
-			Header = new("[teal]Top languages[/]"),
+			Header = new("[teal]Top 5 languages[/]"),
 			Padding = new(1, 0, 1, 0)
 		};
 
@@ -160,7 +160,7 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 
 		var filesPanel = new Panel(filesTable)
 		{
-			Header = new("[teal]Top files[/]"),
+			Header = new("[teal]Top 5 files[/]"),
 			Padding = new(1, 0, 1, 0)
 		};
 

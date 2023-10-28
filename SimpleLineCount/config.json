@@ -57,5 +57,12 @@
 			"SingleLineCommentToken": null,
 			"MultiLineCommentTokens": null
 		}
+	],
+	"ExcludedDirectories": [
+		"node_modules",
+		".git",
+		"dist",
+		"bin",
+		"obj"
 	]
 }

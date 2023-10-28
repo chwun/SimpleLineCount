@@ -28,13 +28,20 @@ public class FileReader : IFileReader
 	{
 		List<SourceFile> files = new();
 
-		var languages = await GetLanguagesAsync();
+		var config = await configReader.GetConfigAsync();
+		var languages = config.IncludedLanguages;
 		var languageMapping = CreateFileExtensionMapping(languages);
+		var excludedDirectories = config.ExcludedDirectories;
 
 		// TODO: error handling: no languages found
 
 		foreach (string file in fileAccess.DirectoryEnumerateFiles(settings.Directory))
 		{
+			if (excludedDirectories.Count > 0 && FileNameContainsExcludedDirectoryName(file, excludedDirectories))
+			{
+				continue;
+			}
+
 			SourceFile? sourceFile = null;
 
 			try
@@ -70,15 +77,6 @@ public class FileReader : IFileReader
 	}
 
 	/// <summary>
-	/// Returns a list of relevant languages, which should be used in counting
-	/// </summary>
-	/// <returns>list of relevant languages</returns>
-	private async Task<List<SourceFileLanguage>> GetLanguagesAsync()
-	{
-		return (await configReader.GetConfigAsync()).IncludedLanguages;
-	}
-
-	/// <summary>
 	/// Creates a mapping from file extensions to source file languages
 	/// </summary>
 	/// <param name="languages">languages</param>
@@ -96,5 +94,31 @@ public class FileReader : IFileReader
 		}
 
 		return fileExtensionMapping;
+	}
+
+	/// <summary>
+	/// Checks if the given file name contains an excluded directory name
+	/// </summary>
+	/// <param name="file">file name</param>
+	/// <param name="excludedDirectories">set of excluded directory names</param>
+	/// <returns>true if file name contains an excluded directory name</returns>
+	private static bool FileNameContainsExcludedDirectoryName(string file, HashSet<string> excludedDirectories)
+	{
+		try
+		{
+			DirectoryInfo? currentDirectory = Directory.GetParent(file);
+			while (currentDirectory != null)
+			{
+				if (excludedDirectories.Contains(currentDirectory.Name))
+				{
+					return true;
+				}
+
+				currentDirectory = Directory.GetParent(currentDirectory.FullName);
+			}
+		}
+		catch { }
+
+		return false;
 	}
 }
