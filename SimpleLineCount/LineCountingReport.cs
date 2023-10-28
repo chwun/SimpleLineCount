@@ -17,8 +17,14 @@ public class LineCountingReport
 	/// <summary>
 	/// Record for language statistics
 	/// </summary>
-	/// <param name="TopLanguages">languages with the most lines</param>
+	/// <param name="TopLanguages">languages with the most total lines</param>
 	public record LanguageStatistics(List<(SourceFileLanguage Language, int TotalLines)> TopLanguages);
+
+	/// <summary>
+	/// Record for file statistics
+	/// </summary>
+	/// <param name="TopFiles">files with the most total lines</param>
+	public record FileStatistics(List<(string Filename, int TotalLines)> TopFiles);
 
 	/// <summary>
 	/// Line statistics
@@ -28,6 +34,10 @@ public class LineCountingReport
 	/// <summary>
 	/// Language statistics
 	/// </summary>
-	/// <value></value>
 	public LanguageStatistics? Languages { get; init; }
+
+	/// <summary>
+	/// File statistics
+	/// </summary>
+	public FileStatistics? Files { get; init; }
 }

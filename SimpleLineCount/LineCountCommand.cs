@@ -68,6 +68,7 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 
 		OutputLineStatistics(report.Lines);
 		OutputLanguageStatistics(report.Languages);
+		OutputFileStatistics(report.Files);
 	}
 
 	/// <summary>
@@ -76,25 +77,27 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 	/// <param name="lineStatistics">line statistics</param>
 	private static void OutputLineStatistics(LineCountingReport.LineStatistics? lineStatistics)
 	{
-		if (lineStatistics != null)
+		if (lineStatistics is null)
 		{
-			var linesTable = new Table();
-			linesTable.AddColumn(new TableColumn("").Footer("[green bold]= Total[/]"));
-			linesTable.AddColumn(new TableColumn("").RightAligned().Footer($"[green bold]{lineStatistics.TotalLines:n0}[/]"));
-			linesTable.AddRow("Code", lineStatistics.CodeLines.ToString("n0"));
-			linesTable.AddRow("[olive]+[/] Comments", lineStatistics.CommentLines.ToString("n0"));
-			linesTable.AddRow("[olive]+[/] Empty", lineStatistics.EmptyLines.ToString("n0"));
-			linesTable.HideHeaders();
-			linesTable.ShowFooters = true;
-
-			var linesPanel = new Panel(linesTable)
-			{
-				Header = new("[teal]Lines[/]"),
-				Padding = new(1, 0, 1, 0)
-			};
-
-			AnsiConsole.Write(linesPanel);
+			return;
 		}
+
+		var linesTable = new Table();
+		linesTable.AddColumn(new TableColumn("").Footer("[green bold]= Total[/]"));
+		linesTable.AddColumn(new TableColumn("").RightAligned().Footer($"[green bold]{lineStatistics.TotalLines:n0}[/]"));
+		linesTable.AddRow("Code", lineStatistics.CodeLines.ToString("n0"));
+		linesTable.AddRow("[olive]+[/] Comments", lineStatistics.CommentLines.ToString("n0"));
+		linesTable.AddRow("[olive]+[/] Empty", lineStatistics.EmptyLines.ToString("n0"));
+		linesTable.HideHeaders();
+		linesTable.ShowFooters = true;
+
+		var linesPanel = new Panel(linesTable)
+		{
+			Header = new("[teal]Lines[/]"),
+			Padding = new(1, 0, 1, 0)
+		};
+
+		AnsiConsole.Write(linesPanel);
 	}
 
 	/// <summary>
@@ -103,27 +106,61 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 	/// <param name="languageStatistics">language statistics</param>
 	private static void OutputLanguageStatistics(LineCountingReport.LanguageStatistics? languageStatistics)
 	{
-		if (languageStatistics != null)
+		if (languageStatistics is null)
 		{
-			var languagesTable = new Table()
-			{
-				ShowHeaders = false
-			};
-			languagesTable.AddColumn(new TableColumn(""));
-			languagesTable.AddColumn(new TableColumn("").RightAligned());
-
-			foreach (var (language, totalLines) in languageStatistics.TopLanguages)
-			{
-				languagesTable.AddRow(language.Name!, totalLines.ToString("n0"));
-			}
-
-			var languagesPanel = new Panel(languagesTable)
-			{
-				Header = new("[teal]Languages[/]"),
-				Padding = new(1, 0, 1, 0)
-			};
-
-			AnsiConsole.Write(languagesPanel);
+			return;
 		}
+
+		var languagesTable = new Table()
+		{
+			ShowHeaders = false
+		};
+		languagesTable.AddColumn(new TableColumn(""));
+		languagesTable.AddColumn(new TableColumn("").RightAligned());
+
+		foreach (var (language, totalLines) in languageStatistics.TopLanguages)
+		{
+			languagesTable.AddRow(language.Name!, totalLines.ToString("n0"));
+		}
+
+		var languagesPanel = new Panel(languagesTable)
+		{
+			Header = new("[teal]Top languages[/]"),
+			Padding = new(1, 0, 1, 0)
+		};
+
+		AnsiConsole.Write(languagesPanel);
+	}
+
+	/// <summary>
+	/// Writes file statistics
+	/// </summary>
+	/// <param name="fileStatistics">file statistics</param>
+	private static void OutputFileStatistics(LineCountingReport.FileStatistics? fileStatistics)
+	{
+		if (fileStatistics is null)
+		{
+			return;
+		}
+
+		var filesTable = new Table()
+		{
+			ShowHeaders = false
+		};
+		filesTable.AddColumn(new TableColumn(""));
+		filesTable.AddColumn(new TableColumn("").RightAligned());
+
+		foreach (var (filename, totalLines) in fileStatistics.TopFiles)
+		{
+			filesTable.AddRow(new TextPath(filename), new Markup(totalLines.ToString("n0")));
+		}
+
+		var filesPanel = new Panel(filesTable)
+		{
+			Header = new("[teal]Top files[/]"),
+			Padding = new(1, 0, 1, 0)
+		};
+
+		AnsiConsole.Write(filesPanel);
 	}
 }

@@ -19,14 +19,22 @@ public class LineCountingReportGenerator : ILineCountingReportGenerator
 
 		var topLanguages = new List<(SourceFileLanguage Language, int TotalLines)>(
 			sourceFiles
-			.GroupBy(x => x.Language!)
-			.Select(x => (x.Key, x.Sum(y => y.Statistics.TotalLines)))
-			.OrderByDescending(x => x.Item2));
+				.GroupBy(x => x.Language!)
+				.Select(x => (x.Key, x.Sum(y => y.Statistics.TotalLines)))
+				.OrderByDescending(x => x.Item2)
+				.Take(5));
+
+		var topFiles = new List<(string Filename, int TotalLines)>(
+			sourceFiles
+				.OrderByDescending(x => x.Statistics.TotalLines)
+				.Take(5)
+				.Select(x => (x.FileName, x.Statistics.TotalLines)));
 
 		LineCountingReport report = new()
 		{
 			Lines = new(totalLines, codeLines, commentLines, emptyLines),
-			Languages = new(topLanguages)
+			Languages = new(topLanguages),
+			Files = new(topFiles)
 		};
 
 		return report;
