@@ -11,7 +11,7 @@
 		},
 		{
 			"Name": "C/C++",
-			"FileExtensions": [ ".c", ".cpp", ".h", ".hpp" ],
+			"FileExtensions": [ ".c", ".cpp", ".h", ".hpp", ".inl" ],
 			"SingleLineCommentToken": "//",
 			"MultiLineCommentTokens": {
 				"StartToken": "/*",
