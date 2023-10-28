@@ -77,7 +77,7 @@ public class LineCounting : ILineCounting
 	/// </summary>
 	/// <param name="line">line</param>
 	/// <returns>true if the given line is empty or contains only whitespace</returns>
-	private bool IsEmptyLine(string line)
+	private static bool IsEmptyLine(string line)
 	{
 		return string.IsNullOrWhiteSpace(line);
 	}
@@ -88,7 +88,7 @@ public class LineCounting : ILineCounting
 	/// <param name="line">line</param>
 	/// <param name="language">language</param>
 	/// <returns>true if the given line contains the multi line comment start and end token</returns>
-	private bool IsMultiLineCommentStartAndEnd(string line, SourceFileLanguage language)
+	private static bool IsMultiLineCommentStartAndEnd(string line, SourceFileLanguage language)
 	{
 		if (!language.MultiLineCommentTokens.HasValue
 			|| string.IsNullOrWhiteSpace(language.MultiLineCommentTokens.Value.StartToken)
@@ -107,7 +107,7 @@ public class LineCounting : ILineCounting
 	/// <param name="line">line</param>
 	/// <param name="language">language</param>
 	/// <returns>true if the given line contains the multi line comment start token</returns>
-	private bool IsMultiLineCommentStart(string line, SourceFileLanguage language)
+	private static bool IsMultiLineCommentStart(string line, SourceFileLanguage language)
 	{
 		if (!language.MultiLineCommentTokens.HasValue || string.IsNullOrWhiteSpace(language.MultiLineCommentTokens.Value.StartToken))
 		{
@@ -123,7 +123,7 @@ public class LineCounting : ILineCounting
 	/// <param name="line">line</param>
 	/// <param name="language">language</param>
 	/// <returns>true if the given line contains the multi line comment end token</returns>
-	private bool IsMultiLineCommentEnd(string line, SourceFileLanguage language)
+	private static bool IsMultiLineCommentEnd(string line, SourceFileLanguage language)
 	{
 		if (!language.MultiLineCommentTokens.HasValue || string.IsNullOrWhiteSpace(language.MultiLineCommentTokens.Value.EndToken))
 		{
@@ -139,7 +139,7 @@ public class LineCounting : ILineCounting
 	/// <param name="line">line</param>
 	/// <param name="language">language</param>
 	/// <returns>true if the given line contains the single line comment token</returns>
-	private bool IsSingleLineComment(string line, SourceFileLanguage language)
+	private static bool IsSingleLineComment(string line, SourceFileLanguage language)
 	{
 		return string.IsNullOrWhiteSpace(language.SingleLineCommentToken)
 			? false
