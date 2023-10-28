@@ -1,5 +1,6 @@
 using Spectre.Console;
 using Spectre.Console.Cli;
+using System.Diagnostics;
 
 namespace SimpleLineCount;
 
@@ -18,6 +19,8 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 		}
 
 		LineCountingReport? report = null;
+		int numberOfFiles = 0;
+		Stopwatch sw = Stopwatch.StartNew();
 
 		await AnsiConsole
 			.Status()
@@ -27,16 +30,19 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 			{
 				IFileReader fileReader = new FileReader(new Helpers.FileAccess(), new LineCounting());
 				var files = (await fileReader.ReadFilesAsync(settings)).ToList();
+				numberOfFiles = files.Count;
 				AnsiConsole.MarkupLine($"[green]Successfully parsed {files.Count} files[/]");
 
 				ctx.Status("Creating report");
 
 				ILineCountingReportGenerator reportGenerator = new LineCountingReportGenerator();
 				report = reportGenerator.CreateReport(files);
-				AnsiConsole.MarkupLine("[green]Successfully created report[/]");
 			});
 
-		OutputReport(report, settings);
+		sw.Stop();
+		TimeSpan duration = sw.Elapsed;
+
+		OutputReport(report, settings, numberOfFiles, duration);
 
 		return 0;
 	}
@@ -46,7 +52,9 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 	/// </summary>
 	/// <param name="report">line counting report</param>
 	/// <param name="settings">settings</param>
-	private static void OutputReport(LineCountingReport? report, LineCountSettings settings)
+	/// <param name="numberOfFiles">Number of included files</param>
+	/// <param name="duration">duration for parsing and report generation</param>
+	private static void OutputReport(LineCountingReport? report, LineCountSettings settings, int numberOfFiles, TimeSpan duration)
 	{
 		if (report is null)
 		{
@@ -55,7 +63,7 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 		}
 
 		AnsiConsole.Clear();
-		AnsiConsole.MarkupLine($"Report for [italic]\"{settings.Directory}\"[/]");
+		AnsiConsole.MarkupLine($"Report generation for [italic]\"{settings.Directory}\"[/] took [aqua]{duration.TotalSeconds:0.000}s[/] ([green]{numberOfFiles}[/] files included)");
 		AnsiConsole.MarkupLine("");
 
 		OutputLineStatistics(report.Lines);
