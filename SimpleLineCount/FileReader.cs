@@ -1,3 +1,4 @@
+using SimpleLineCount.Config;
 using SimpleLineCount.Helpers;
 
 namespace SimpleLineCount;
@@ -9,11 +10,13 @@ public class FileReader : IFileReader
 {
 	private readonly IFileAccess fileAccess;
 	private readonly ILineCounting lineCounting;
+	private readonly IConfigReader configReader;
 
-	public FileReader(IFileAccess fileAccess, ILineCounting lineCounting)
+	public FileReader(IFileAccess fileAccess, ILineCounting lineCounting, IConfigReader configReader)
 	{
 		this.fileAccess = fileAccess;
 		this.lineCounting = lineCounting;
+		this.configReader = configReader;
 	}
 
 	/// <summary>
@@ -25,8 +28,10 @@ public class FileReader : IFileReader
 	{
 		List<SourceFile> files = new();
 
-		var languages = GetLanguages();
+		var languages = await GetLanguagesAsync();
 		var languageMapping = CreateFileExtensionMapping(languages);
+
+		// TODO: error handling: no languages found
 
 		foreach (string file in fileAccess.DirectoryEnumerateFiles(settings.Directory))
 		{
@@ -68,34 +73,9 @@ public class FileReader : IFileReader
 	/// Returns a list of relevant languages, which should be used in counting
 	/// </summary>
 	/// <returns>list of relevant languages</returns>
-	private List<SourceFileLanguage> GetLanguages()
+	private async Task<List<SourceFileLanguage>> GetLanguagesAsync()
 	{
-		// TODO: read from config file instead!
-		return new()
-		{
-			new()
-			{
-				Name = "C#",
-				FileExtensions = new() { ".cs", ".csx" },
-				SingleLineCommentToken = "//",
-				MultiLineCommentTokens = ("/*", "*/")
-			},
-			new() {
-				Name = "Typescript",
-				FileExtensions = new() { ".ts" },
-				SingleLineCommentToken = "//",
-				MultiLineCommentTokens = ("/*", "*/")
-			},
-			new() {
-				Name = "HTML",
-				FileExtensions = new() { ".html", ".htm" },
-				MultiLineCommentTokens = ("<!--", "-->")
-			},
-			new() {
-				Name = "CSS",
-				FileExtensions = new() { ".css" }
-			}
-		};
+		return (await configReader.GetConfigAsync()).IncludedLanguages;
 	}
 
 	/// <summary>

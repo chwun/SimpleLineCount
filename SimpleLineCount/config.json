@@ -1,0 +1,61 @@
+{
+	"IncludedLanguages": [
+		{
+			"Name": "C#",
+			"FileExtensions": [ ".cs", ".csx" ],
+			"SingleLineCommentToken": "//",
+			"MultiLineCommentTokens": {
+				"StartToken": "/*",
+				"EndToken": "*/"
+			}
+		},
+		{
+			"Name": "C/C++",
+			"FileExtensions": [ ".c", ".cpp", ".h", ".hpp" ],
+			"SingleLineCommentToken": "//",
+			"MultiLineCommentTokens": {
+				"StartToken": "/*",
+				"EndToken": "*/"
+			}
+		},
+		{
+			"Name": "Python",
+			"FileExtensions": [ ".py" ],
+			"SingleLineCommentToken": "#",
+			"MultiLineCommentTokens": null
+		},
+		{
+			"Name": "Typescript",
+			"FileExtensions": [ ".ts" ],
+			"SingleLineCommentToken": "//",
+			"MultiLineCommentTokens": {
+				"StartToken": "/*",
+				"EndToken": "*/"
+			}
+		},
+		{
+			"Name": "Javascript",
+			"FileExtensions": [ ".js", ".jsx" ],
+			"SingleLineCommentToken": "//",
+			"MultiLineCommentTokens": {
+				"StartToken": "/*",
+				"EndToken": "*/"
+			}
+		},
+		{
+			"Name": "HTML",
+			"FileExtensions": [ ".htm", ".html" ],
+			"SingleLineCommentToken": null,
+			"MultiLineCommentTokens": {
+				"StartToken": "<!--",
+				"EndToken": "-->"
+			}
+		},
+		{
+			"Name": "CSS",
+			"FileExtensions": [ ".css", ".scss", ".sass" ],
+			"SingleLineCommentToken": null,
+			"MultiLineCommentTokens": null
+		}
+	]
+}

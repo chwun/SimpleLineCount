@@ -24,4 +24,14 @@ public class FileAccess : IFileAccess
 	{
 		return File.ReadAllLinesAsync(path);
 	}
+
+	/// <summary>
+	/// Opens a text file, reads all text, and then closes the file
+	/// </summary>
+	/// <param name="path">file path</param>
+	/// <returns>string containing all text in the file</returns>
+	public Task<string> ReadAllTextAsync(string path)
+	{
+		return File.ReadAllTextAsync(path);
+	}
 }

@@ -18,4 +18,11 @@ public interface IFileAccess
 	/// <param name="path">file path</param>
 	/// <returns>text lines</returns>
 	Task<string[]> ReadAllLinesAsync(string path);
+
+	/// <summary>
+	/// Opens a text file, reads all text, and then closes the file
+	/// </summary>
+	/// <param name="path">file path</param>
+	/// <returns>string containing all text in the file</returns>
+	Task<string> ReadAllTextAsync(string path);
 }

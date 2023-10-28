@@ -1,3 +1,5 @@
+using SimpleLineCount.Config;
+using SimpleLineCount.Helpers;
 using Spectre.Console;
 using Spectre.Console.Cli;
 using System.Diagnostics;
@@ -28,7 +30,8 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 			.SpinnerStyle(Style.Parse("green bold"))
 			.StartAsync("Parsing files", async ctx =>
 			{
-				IFileReader fileReader = new FileReader(new Helpers.FileAccess(), new LineCounting());
+				IFileAccess fileAccess = new Helpers.FileAccess();
+				IFileReader fileReader = new FileReader(fileAccess, new LineCounting(), new ConfigReader(fileAccess));
 				var files = (await fileReader.ReadFilesAsync(settings)).ToList();
 				numberOfFiles = files.Count;
 				AnsiConsole.MarkupLine($"[green]Successfully parsed {files.Count} files[/]");

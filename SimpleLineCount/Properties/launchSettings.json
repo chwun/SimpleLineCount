@@ -2,7 +2,7 @@
   "profiles": {
     "SimpleLineCount": {
       "commandName": "Project",
-      "commandLineArgs": "D:\\Entwicklung\\HomeAPI\\Backend\\"
+      "commandLineArgs": "D:\\Entwicklung\\HomeAPI\\"
     }
   }
 }
