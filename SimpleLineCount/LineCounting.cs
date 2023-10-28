@@ -67,7 +67,8 @@ public class LineCounting : ILineCounting
 		{
 			CodeLines = codeLines,
 			CommentLines = commentLines,
-			EmptyLines = emptyLines
+			EmptyLines = emptyLines,
+			TotalLines = codeLines + commentLines + emptyLines
 		};
 	}
 

@@ -15,7 +15,19 @@ public class LineCountingReport
 	public record LineStatistics(int TotalLines, int CodeLines, int CommentLines, int EmptyLines);
 
 	/// <summary>
+	/// Record for language statistics
+	/// </summary>
+	/// <param name="TopLanguages">languages with the most lines</param>
+	public record LanguageStatistics(List<(SourceFileLanguage Language, int TotalLines)> TopLanguages);
+
+	/// <summary>
 	/// Line statistics
 	/// </summary>
 	public LineStatistics? Lines { get; init; }
+
+	/// <summary>
+	/// Language statistics
+	/// </summary>
+	/// <value></value>
+	public LanguageStatistics? Languages { get; init; }
 }

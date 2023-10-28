@@ -58,18 +58,49 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 		AnsiConsole.MarkupLine($"Report for [italic]\"{settings.Directory}\"[/]");
 		AnsiConsole.MarkupLine("");
 
-		var linesTable = new Table();
-		linesTable.AddColumn(new TableColumn("").Footer("[green bold]= Total[/]"));
-		linesTable.AddColumn(new TableColumn("").RightAligned().Footer($"[green bold]{report.Lines!.TotalLines:n0}[/]"));
-		linesTable.AddRow("Code", report.Lines.CodeLines.ToString("n0"));
-		linesTable.AddRow("[olive]+[/] Comments", report.Lines.CommentLines.ToString("n0"));
-		linesTable.AddRow("[olive]+[/] Empty", report.Lines.EmptyLines.ToString("n0"));
-		linesTable.HideHeaders();
-		linesTable.ShowFooters = true;
+		if (report.Lines != null)
+		{
+			// Line statistics
+			var linesTable = new Table();
+			linesTable.AddColumn(new TableColumn("").Footer("[green bold]= Total[/]"));
+			linesTable.AddColumn(new TableColumn("").RightAligned().Footer($"[green bold]{report.Lines.TotalLines:n0}[/]"));
+			linesTable.AddRow("Code", report.Lines.CodeLines.ToString("n0"));
+			linesTable.AddRow("[olive]+[/] Comments", report.Lines.CommentLines.ToString("n0"));
+			linesTable.AddRow("[olive]+[/] Empty", report.Lines.EmptyLines.ToString("n0"));
+			linesTable.HideHeaders();
+			linesTable.ShowFooters = true;
 
-		var linesPanel = new Panel(linesTable);
-		linesPanel.Header = new("[teal]Line statistics[/]");
-		linesPanel.Padding = new(1, 0, 1, 0);
-		AnsiConsole.Write(linesPanel);
+			var linesPanel = new Panel(linesTable)
+			{
+				Header = new("[teal]Lines[/]"),
+				Padding = new(1, 0, 1, 0)
+			};
+
+			AnsiConsole.Write(linesPanel);
+		}
+
+		if (report.Languages != null)
+		{
+			// Language statistics
+			var languagesTable = new Table()
+			{
+				ShowHeaders = false
+			};
+			languagesTable.AddColumn(new TableColumn(""));
+			languagesTable.AddColumn(new TableColumn("").RightAligned());
+
+			foreach (var (language, totalLines) in report.Languages.TopLanguages)
+			{
+				languagesTable.AddRow(language.Name!, totalLines.ToString("n0"));
+			}
+
+			var languagesPanel = new Panel(languagesTable)
+			{
+				Header = new("[teal]Languages[/]"),
+				Padding = new(1, 0, 1, 0)
+			};
+
+			AnsiConsole.Write(languagesPanel);
+		}
 	}
 }

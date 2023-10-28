@@ -6,6 +6,11 @@ namespace SimpleLineCount;
 public class LineCountStatistics
 {
 	/// <summary>
+	/// Total number of lines
+	/// </summary>
+	public int TotalLines { get; set; }
+
+	/// <summary>
 	/// Number of code lines
 	/// </summary>
 	public int CodeLines { get; set; }

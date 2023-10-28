@@ -79,6 +79,21 @@ public class FileReader : IFileReader
 				FileExtensions = new() { ".cs", ".csx" },
 				SingleLineCommentToken = "//",
 				MultiLineCommentTokens = ("/*", "*/")
+			},
+			new() {
+				Name = "Typescript",
+				FileExtensions = new() { ".ts" },
+				SingleLineCommentToken = "//",
+				MultiLineCommentTokens = ("/*", "*/")
+			},
+			new() {
+				Name = "HTML",
+				FileExtensions = new() { ".html", ".htm" },
+				MultiLineCommentTokens = ("<!--", "-->")
+			},
+			new() {
+				Name = "CSS",
+				FileExtensions = new() { ".css" }
 			}
 		};
 	}
