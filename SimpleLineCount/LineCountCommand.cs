@@ -58,15 +58,24 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 		AnsiConsole.MarkupLine($"Report for [italic]\"{settings.Directory}\"[/]");
 		AnsiConsole.MarkupLine("");
 
-		if (report.Lines != null)
+		OutputLineStatistics(report.Lines);
+		OutputLanguageStatistics(report.Languages);
+	}
+
+	/// <summary>
+	/// Writes line statistics
+	/// </summary>
+	/// <param name="lineStatistics">line statistics</param>
+	private static void OutputLineStatistics(LineCountingReport.LineStatistics? lineStatistics)
+	{
+		if (lineStatistics != null)
 		{
-			// Line statistics
 			var linesTable = new Table();
 			linesTable.AddColumn(new TableColumn("").Footer("[green bold]= Total[/]"));
-			linesTable.AddColumn(new TableColumn("").RightAligned().Footer($"[green bold]{report.Lines.TotalLines:n0}[/]"));
-			linesTable.AddRow("Code", report.Lines.CodeLines.ToString("n0"));
-			linesTable.AddRow("[olive]+[/] Comments", report.Lines.CommentLines.ToString("n0"));
-			linesTable.AddRow("[olive]+[/] Empty", report.Lines.EmptyLines.ToString("n0"));
+			linesTable.AddColumn(new TableColumn("").RightAligned().Footer($"[green bold]{lineStatistics.TotalLines:n0}[/]"));
+			linesTable.AddRow("Code", lineStatistics.CodeLines.ToString("n0"));
+			linesTable.AddRow("[olive]+[/] Comments", lineStatistics.CommentLines.ToString("n0"));
+			linesTable.AddRow("[olive]+[/] Empty", lineStatistics.EmptyLines.ToString("n0"));
 			linesTable.HideHeaders();
 			linesTable.ShowFooters = true;
 
@@ -78,10 +87,16 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 
 			AnsiConsole.Write(linesPanel);
 		}
+	}
 
-		if (report.Languages != null)
+	/// <summary>
+	/// Writes language statistics
+	/// </summary>
+	/// <param name="languageStatistics">language statistics</param>
+	private static void OutputLanguageStatistics(LineCountingReport.LanguageStatistics? languageStatistics)
+	{
+		if (languageStatistics != null)
 		{
-			// Language statistics
 			var languagesTable = new Table()
 			{
 				ShowHeaders = false
@@ -89,7 +104,7 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 			languagesTable.AddColumn(new TableColumn(""));
 			languagesTable.AddColumn(new TableColumn("").RightAligned());
 
-			foreach (var (language, totalLines) in report.Languages.TopLanguages)
+			foreach (var (language, totalLines) in languageStatistics.TopLanguages)
 			{
 				languagesTable.AddRow(language.Name!, totalLines.ToString("n0"));
 			}
