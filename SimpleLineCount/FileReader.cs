@@ -6,19 +6,8 @@ namespace SimpleLineCount;
 /// <summary>
 /// Class for reading all relevant source files
 /// </summary>
-public class FileReader : IFileReader
+public class FileReader(IFileAccess fileAccess, ILineCounting lineCounting, IConfigReader configReader) : IFileReader
 {
-	private readonly IFileAccess fileAccess;
-	private readonly ILineCounting lineCounting;
-	private readonly IConfigReader configReader;
-
-	public FileReader(IFileAccess fileAccess, ILineCounting lineCounting, IConfigReader configReader)
-	{
-		this.fileAccess = fileAccess;
-		this.lineCounting = lineCounting;
-		this.configReader = configReader;
-	}
-
 	/// <summary>
 	/// Parses the files specified by the given settings object into an enumerable of source files
 	/// </summary>

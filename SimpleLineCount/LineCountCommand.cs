@@ -1,5 +1,3 @@
-using SimpleLineCount.Config;
-using SimpleLineCount.Helpers;
 using Spectre.Console;
 using Spectre.Console.Cli;
 using System.Diagnostics;
@@ -9,7 +7,8 @@ namespace SimpleLineCount;
 /// <summary>
 /// Command implementation for line counting
 /// </summary>
-internal class LineCountCommand : AsyncCommand<LineCountSettings>
+internal class LineCountCommand(IFileReader fileReader, ILineCountingReportGenerator reportGenerator)
+	: AsyncCommand<LineCountSettings>
 {
 	/// <inheritdoc />
 	public override async Task<int> ExecuteAsync(CommandContext context, LineCountSettings settings)
@@ -30,15 +29,12 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 			.SpinnerStyle(Style.Parse("green bold"))
 			.StartAsync("Parsing files", async ctx =>
 			{
-				IFileAccess fileAccess = new Helpers.FileAccess();
-				IFileReader fileReader = new FileReader(fileAccess, new LineCounting(), new ConfigReader(fileAccess));
 				var files = (await fileReader.ReadFilesAsync(settings)).ToList();
 				numberOfFiles = files.Count;
 				AnsiConsole.MarkupLine($"[green]Successfully parsed {files.Count} files[/]");
 
 				ctx.Status("Creating report");
 
-				ILineCountingReportGenerator reportGenerator = new LineCountingReportGenerator();
 				report = reportGenerator.CreateReport(files);
 			});
 
