@@ -6,6 +6,12 @@ namespace SimpleLineCount.Helpers;
 public class FileAccess : IFileAccess
 {
 	/// <inheritdoc/>
+	public bool DirectoryExists(string path)
+	{
+		return Directory.Exists(path);
+	}
+
+	/// <inheritdoc/>
 	public IEnumerable<string> DirectoryEnumerateFiles(string path)
 	{
 		return Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories);

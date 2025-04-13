@@ -1,3 +1,4 @@
+using SimpleLineCount.Helpers;
 using SimpleLineCount.Models;
 using SimpleLineCount.Services;
 using Spectre.Console;
@@ -9,13 +10,13 @@ namespace SimpleLineCount.Commands.LineCount;
 /// <summary>
 /// Command implementation for line counting
 /// </summary>
-internal class LineCountCommand(IAnsiConsole console, IFileReader fileReader, ILineCountingReportGenerator reportGenerator, IReportOutputWriter reportOutput)
+internal class LineCountCommand(IAnsiConsole console, IFileAccess fileAccess, IFileReader fileReader, ILineCountingReportGenerator reportGenerator, IReportOutputWriter reportOutput)
 	: AsyncCommand<LineCountSettings>
 {
 	/// <inheritdoc />
 	public override async Task<int> ExecuteAsync(CommandContext context, LineCountSettings settings)
 	{
-		if (!Directory.Exists(settings.Directory))
+		if (!fileAccess.DirectoryExists(settings.Directory))
 		{
 			console.MarkupLine("[red]Error: Invalid directory[/]");
 			return 1;

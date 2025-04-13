@@ -6,6 +6,13 @@ namespace SimpleLineCount.Helpers;
 public interface IFileAccess
 {
 	/// <summary>
+	/// Determines whether the given path refers to an existing directory on disk
+	/// </summary>
+	/// <param name="path">the path to test</param>
+	/// <returns>true if path refers to an existing directory; false if the directory does not exist or an error occurs while trying to determine if the directory exists</returns>
+	bool DirectoryExists(string path);
+
+	/// <summary>
 	/// Returns an enumerable collection of full file names in the directory specified by <paramref name="path"/>
 	/// </summary>
 	/// <param name="path">directory</param>
