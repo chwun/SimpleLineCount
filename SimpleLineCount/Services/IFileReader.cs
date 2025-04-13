@@ -1,4 +1,7 @@
-namespace SimpleLineCount;
+using SimpleLineCount.Commands.LineCount;
+using SimpleLineCount.Models;
+
+namespace SimpleLineCount.Services;
 
 /// <summary>
 /// Interface for reading all relevant source files

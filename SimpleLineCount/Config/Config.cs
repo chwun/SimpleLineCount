@@ -1,3 +1,5 @@
+using SimpleLineCount.Models;
+
 namespace SimpleLineCount.Config;
 
 /// <summary>

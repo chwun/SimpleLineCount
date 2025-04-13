@@ -1,6 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
+using SimpleLineCount.Commands.LineCount;
 using SimpleLineCount.Config;
 using SimpleLineCount.Helpers;
+using SimpleLineCount.Services;
 using Spectre.Console.Cli;
 using Spectre.Console.Cli.Extensions.DependencyInjection;
 using System.Globalization;

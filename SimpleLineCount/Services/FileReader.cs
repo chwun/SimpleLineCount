@@ -1,7 +1,9 @@
+using SimpleLineCount.Commands.LineCount;
 using SimpleLineCount.Config;
 using SimpleLineCount.Helpers;
+using SimpleLineCount.Models;
 
-namespace SimpleLineCount;
+namespace SimpleLineCount.Services;
 
 /// <summary>
 /// Class for reading all relevant source files

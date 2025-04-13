@@ -1,4 +1,6 @@
-namespace SimpleLineCount;
+using SimpleLineCount.Models;
+
+namespace SimpleLineCount.Services;
 
 /// <summary>
 /// Interface for creating a line counting report

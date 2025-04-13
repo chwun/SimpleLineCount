@@ -1,7 +1,7 @@
 using Spectre.Console.Cli;
 using System.ComponentModel;
 
-namespace SimpleLineCount;
+namespace SimpleLineCount.Commands.LineCount;
 
 /// <summary>
 /// CLI settings for line counting

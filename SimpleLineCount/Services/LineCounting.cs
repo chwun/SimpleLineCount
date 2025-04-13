@@ -1,4 +1,6 @@
-namespace SimpleLineCount;
+using SimpleLineCount.Models;
+
+namespace SimpleLineCount.Services;
 
 /// <summary>
 /// Class for line counting

@@ -1,4 +1,7 @@
-namespace SimpleLineCount;
+using SimpleLineCount.Commands.LineCount;
+using SimpleLineCount.Models;
+
+namespace SimpleLineCount.Services;
 
 /// <summary>
 /// Interface for printing a line counting report to the console

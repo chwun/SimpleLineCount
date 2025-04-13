@@ -1,6 +1,8 @@
+using SimpleLineCount.Commands.LineCount;
+using SimpleLineCount.Models;
 using Spectre.Console;
 
-namespace SimpleLineCount;
+namespace SimpleLineCount.Services;
 
 /// <summary>
 /// Class for printing a line counting report to the console

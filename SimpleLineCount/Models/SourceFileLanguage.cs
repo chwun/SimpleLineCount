@@ -1,4 +1,4 @@
-namespace SimpleLineCount;
+namespace SimpleLineCount.Models;
 
 /// <summary>
 /// Data for a source file language

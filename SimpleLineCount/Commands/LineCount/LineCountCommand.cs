@@ -1,8 +1,10 @@
+using SimpleLineCount.Models;
+using SimpleLineCount.Services;
 using Spectre.Console;
 using Spectre.Console.Cli;
 using System.Diagnostics;
 
-namespace SimpleLineCount;
+namespace SimpleLineCount.Commands.LineCount;
 
 /// <summary>
 /// Command implementation for line counting
