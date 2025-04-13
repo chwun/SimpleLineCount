@@ -44,5 +44,6 @@ public static class Program
 		services.AddSingleton<ILineCounting, LineCounting>();
 		services.AddSingleton<IConfigReader, ConfigReader>();
 		services.AddSingleton<ILineCountingReportGenerator, LineCountingReportGenerator>();
+		services.AddSingleton<IReportOutput, ReportOutput>();
 	}
 }

@@ -5,20 +5,20 @@ namespace SimpleLineCount;
 /// <summary>
 /// Class for printing a line counting report to the console
 /// </summary>
-public class ReportOutput : IReportOutput
+public class ReportOutput(IAnsiConsole console) : IReportOutput
 {
 	/// <inheritdoc/>
 	public void WriteReport(LineCountingReport? report, LineCountSettings settings, int numberOfFiles, TimeSpan duration)
 	{
 		if (report is null)
 		{
-			AnsiConsole.MarkupLine("[red]Error: Could not create line counting report[/]");
+			console.MarkupLine("[red]Error: Could not create line counting report[/]");
 			return;
 		}
 
-		AnsiConsole.Clear();
-		AnsiConsole.MarkupLine($"Report generation for [italic]\"{settings.Directory}\"[/] took [aqua]{duration.TotalSeconds:0.000}s[/] ([green]{numberOfFiles}[/] files parsed)");
-		AnsiConsole.MarkupLine("");
+		console.Clear();
+		console.MarkupLineInterpolated($"Report generation for [italic]\"{settings.Directory}\"[/] took [aqua]{duration.TotalSeconds:0.000}s[/] ([green]{numberOfFiles}[/] files parsed)");
+		console.MarkupLine("");
 
 		OutputLineStatistics(report.Lines);
 		OutputLanguageStatistics(report.Languages);
@@ -29,7 +29,7 @@ public class ReportOutput : IReportOutput
 	/// Writes line statistics
 	/// </summary>
 	/// <param name="lineStatistics">line statistics</param>
-	private static void OutputLineStatistics(LineCountingReport.LineStatistics? lineStatistics)
+	private void OutputLineStatistics(LineCountingReport.LineStatistics? lineStatistics)
 	{
 		if (lineStatistics is null)
 		{
@@ -51,14 +51,14 @@ public class ReportOutput : IReportOutput
 			Padding = new(1, 0, 1, 0)
 		};
 
-		AnsiConsole.Write(linesPanel);
+		console.Write(linesPanel);
 	}
 
 	/// <summary>
 	/// Writes language statistics
 	/// </summary>
 	/// <param name="languageStatistics">language statistics</param>
-	private static void OutputLanguageStatistics(LineCountingReport.LanguageStatistics? languageStatistics)
+	private void OutputLanguageStatistics(LineCountingReport.LanguageStatistics? languageStatistics)
 	{
 		if (languageStatistics is null)
 		{
@@ -80,15 +80,15 @@ public class ReportOutput : IReportOutput
 			Padding = new(1, 0, 1, 0)
 		};
 
-		AnsiConsole.MarkupLine("");
-		AnsiConsole.Write(languagesPanel);
+		console.MarkupLine("");
+		console.Write(languagesPanel);
 	}
 
 	/// <summary>
 	/// Writes file statistics
 	/// </summary>
 	/// <param name="fileStatistics">file statistics</param>
-	private static void OutputFileStatistics(LineCountingReport.FileStatistics? fileStatistics)
+	private void OutputFileStatistics(LineCountingReport.FileStatistics? fileStatistics)
 	{
 		if (fileStatistics is null)
 		{
@@ -110,7 +110,7 @@ public class ReportOutput : IReportOutput
 			Padding = new(1, 0, 1, 0)
 		};
 
-		AnsiConsole.MarkupLine("");
-		AnsiConsole.Write(filesPanel);
+		console.MarkupLine("");
+		console.Write(filesPanel);
 	}
 }

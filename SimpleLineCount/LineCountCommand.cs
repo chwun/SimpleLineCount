@@ -7,7 +7,7 @@ namespace SimpleLineCount;
 /// <summary>
 /// Command implementation for line counting
 /// </summary>
-internal class LineCountCommand(IFileReader fileReader, ILineCountingReportGenerator reportGenerator)
+internal class LineCountCommand(IAnsiConsole console, IFileReader fileReader, ILineCountingReportGenerator reportGenerator, IReportOutput reportOutput)
 	: AsyncCommand<LineCountSettings>
 {
 	/// <inheritdoc />
@@ -15,7 +15,7 @@ internal class LineCountCommand(IFileReader fileReader, ILineCountingReportGener
 	{
 		if (!Directory.Exists(settings.Directory))
 		{
-			AnsiConsole.MarkupLine("[red]Error: Invalid directory[/]");
+			console.MarkupLine("[red]Error: Invalid directory[/]");
 			return 1;
 		}
 
@@ -25,13 +25,13 @@ internal class LineCountCommand(IFileReader fileReader, ILineCountingReportGener
 
 		await AnsiConsole
 			.Status()
-			.Spinner(Spinner.Known.Star)
-			.SpinnerStyle(Style.Parse("green bold"))
+			.Spinner(Spinner.Known.Dots)
+			.SpinnerStyle(Style.Parse("green"))
 			.StartAsync("Parsing files", async ctx =>
 			{
 				var files = (await fileReader.ReadFilesAsync(settings)).ToList();
 				numberOfFiles = files.Count;
-				AnsiConsole.MarkupLine($"[green]Successfully parsed {files.Count} files[/]");
+				console.MarkupLineInterpolated($"[green]Successfully parsed {files.Count} files[/]");
 
 				ctx.Status("Creating report");
 
@@ -41,7 +41,6 @@ internal class LineCountCommand(IFileReader fileReader, ILineCountingReportGener
 		sw.Stop();
 		TimeSpan duration = sw.Elapsed;
 
-		ReportOutput reportOutput = new();
 		reportOutput.WriteReport(report, settings, numberOfFiles, duration);
 
 		return 0;
