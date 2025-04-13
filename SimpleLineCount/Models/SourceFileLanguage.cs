@@ -9,7 +9,7 @@ public class SourceFileLanguage
 	/// Language name (should be unique)
 	/// Example: "C#"
 	/// </summary>
-	public string? Name { get; init; }
+	public string Name { get; init; } = "";
 
 	/// <summary>
 	/// List of file extensions (must be unique)

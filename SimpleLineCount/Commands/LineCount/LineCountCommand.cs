@@ -10,7 +10,7 @@ namespace SimpleLineCount.Commands.LineCount;
 /// <summary>
 /// Command implementation for line counting
 /// </summary>
-internal class LineCountCommand(IAnsiConsole console, IFileAccess fileAccess, IFileReader fileReader, ILineCountingReportGenerator reportGenerator, IReportOutputWriter reportOutput)
+internal class LineCountCommand(IAnsiConsole console, IFileAccess fileAccess, IFileReader fileReader, ILineCountingReportGenerator reportGenerator, IReportOutputWriter reportOutputWriter)
 	: AsyncCommand<LineCountSettings>
 {
 	/// <inheritdoc />
@@ -32,7 +32,7 @@ internal class LineCountCommand(IAnsiConsole console, IFileAccess fileAccess, IF
 			.SpinnerStyle(Style.Parse("green"))
 			.StartAsync("Parsing files", async ctx =>
 			{
-				var files = (await fileReader.ReadFilesAsync(settings)).ToList();
+				var files = await fileReader.ReadFilesAsync(settings);
 				numberOfFiles = files.Count;
 				console.MarkupLineInterpolated($"[green]Successfully parsed {files.Count} files[/]");
 
@@ -44,7 +44,7 @@ internal class LineCountCommand(IAnsiConsole console, IFileAccess fileAccess, IF
 		sw.Stop();
 		TimeSpan duration = sw.Elapsed;
 
-		reportOutput.WriteReport(report, settings, numberOfFiles, duration);
+		reportOutputWriter.WriteReport(report, settings, numberOfFiles, duration);
 
 		return 0;
 	}

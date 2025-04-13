@@ -5,6 +5,7 @@
 		<TargetFramework>net9.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -14,9 +15,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="config.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
+		<None Update="config.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+
+		<InternalsVisibleTo Include="$(AssemblyName).Tests" />
 	</ItemGroup>
 
 </Project>

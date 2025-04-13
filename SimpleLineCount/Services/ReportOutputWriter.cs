@@ -73,7 +73,7 @@ public class ReportOutputWriter(IAnsiConsole console) : IReportOutputWriter
 
 		foreach (var (language, totalLines) in languageStatistics.TopLanguages)
 		{
-			languagesTable.AddRow(language.Name!, totalLines.ToString("n0"));
+			languagesTable.AddRow(language.Name, totalLines.ToString("n0"));
 		}
 
 		var languagesPanel = new Panel(languagesTable)
