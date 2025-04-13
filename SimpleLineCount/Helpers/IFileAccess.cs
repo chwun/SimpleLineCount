@@ -13,6 +13,13 @@ public interface IFileAccess
 	IEnumerable<string> DirectoryEnumerateFiles(string path);
 
 	/// <summary>
+	/// Retrieves the parent directory of the specified path, including both absolute and relative paths
+	/// </summary>
+	/// <param name="path">the path for which to retrieve the parent directory</param>
+	/// <returns>the parent directory, or null if path is the root directory, including the root of a UNC server or share name</returns>
+	DirectoryInfo? DirectoryGetParent(string path);
+
+	/// <summary>
 	/// Opens a text file, reads all lines of the file, and then closes the file
 	/// </summary>
 	/// <param name="path">file path</param>

@@ -5,11 +5,7 @@ namespace SimpleLineCount;
 /// </summary>
 public class LineCountingReportGenerator : ILineCountingReportGenerator
 {
-	/// <summary>
-	/// Creates a report for the given list of source files
-	/// </summary>
-	/// <param name="sourceFiles">source files</param>
-	/// <returns>line counting report</returns>
+	/// <inheritdoc/>
 	public LineCountingReport CreateReport(List<SourceFile> sourceFiles)
 	{
 		int codeLines = sourceFiles.Sum(x => x.Statistics.CodeLines);

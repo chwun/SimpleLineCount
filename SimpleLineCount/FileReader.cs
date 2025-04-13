@@ -8,11 +8,7 @@ namespace SimpleLineCount;
 /// </summary>
 public class FileReader(IFileAccess fileAccess, ILineCounting lineCounting, IConfigReader configReader) : IFileReader
 {
-	/// <summary>
-	/// Parses the files specified by the given settings object into an enumerable of source files
-	/// </summary>
-	/// <param name="settings">settings</param>
-	/// <returns>list of source files</returns>
+	/// <inheritdoc/>
 	public async Task<List<SourceFile>> ReadFilesAsync(LineCountSettings settings)
 	{
 		List<SourceFile> files = [];
@@ -91,11 +87,11 @@ public class FileReader(IFileAccess fileAccess, ILineCounting lineCounting, ICon
 	/// <param name="file">file name</param>
 	/// <param name="excludedDirectories">set of excluded directory names</param>
 	/// <returns>true if file name contains an excluded directory name</returns>
-	private static bool FileNameContainsExcludedDirectoryName(string file, HashSet<string> excludedDirectories)
+	private bool FileNameContainsExcludedDirectoryName(string file, HashSet<string> excludedDirectories)
 	{
 		try
 		{
-			DirectoryInfo? currentDirectory = Directory.GetParent(file);
+			DirectoryInfo? currentDirectory = fileAccess.DirectoryGetParent(file);
 			while (currentDirectory != null)
 			{
 				if (excludedDirectories.Contains(currentDirectory.Name))
@@ -103,7 +99,7 @@ public class FileReader(IFileAccess fileAccess, ILineCounting lineCounting, ICon
 					return true;
 				}
 
-				currentDirectory = Directory.GetParent(currentDirectory.FullName);
+				currentDirectory = fileAccess.DirectoryGetParent(currentDirectory.FullName);
 			}
 		}
 		catch { }

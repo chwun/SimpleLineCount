@@ -14,10 +14,7 @@ public class ConfigReader(IFileAccess fileAccess) : IConfigReader
 
 	private Config? config;
 
-	/// <summary>
-	/// Gets the configuration object
-	/// </summary>
-	/// <returns>configuration object</returns>
+	/// <inheritdoc/>
 	public async Task<Config> GetConfigAsync()
 	{
 		if (config is null)
