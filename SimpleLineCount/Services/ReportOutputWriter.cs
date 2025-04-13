@@ -7,7 +7,7 @@ namespace SimpleLineCount.Services;
 /// <summary>
 /// Class for printing a line counting report to the console
 /// </summary>
-public class ReportOutput(IAnsiConsole console) : IReportOutput
+public class ReportOutputWriter(IAnsiConsole console) : IReportOutputWriter
 {
 	/// <inheritdoc/>
 	public void WriteReport(LineCountingReport? report, LineCountSettings settings, int numberOfFiles, TimeSpan duration)

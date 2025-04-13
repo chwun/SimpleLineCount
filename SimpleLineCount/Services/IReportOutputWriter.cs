@@ -6,7 +6,7 @@ namespace SimpleLineCount.Services;
 /// <summary>
 /// Interface for printing a line counting report to the console
 /// </summary>
-public interface IReportOutput
+public interface IReportOutputWriter
 {
 	/// <summary>
 	/// Writes the given report to the console

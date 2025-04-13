@@ -9,7 +9,7 @@ namespace SimpleLineCount.Commands.LineCount;
 /// <summary>
 /// Command implementation for line counting
 /// </summary>
-internal class LineCountCommand(IAnsiConsole console, IFileReader fileReader, ILineCountingReportGenerator reportGenerator, IReportOutput reportOutput)
+internal class LineCountCommand(IAnsiConsole console, IFileReader fileReader, ILineCountingReportGenerator reportGenerator, IReportOutputWriter reportOutput)
 	: AsyncCommand<LineCountSettings>
 {
 	/// <inheritdoc />
