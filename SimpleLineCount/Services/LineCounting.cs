@@ -139,8 +139,6 @@ public class LineCounting : ILineCounting
 	/// <returns>true if the given line contains the single line comment token</returns>
 	private static bool IsSingleLineComment(string line, SourceFileLanguage language)
 	{
-		return string.IsNullOrWhiteSpace(language.SingleLineCommentToken)
-			? false
-			: line.StartsWith(language.SingleLineCommentToken);
+		return !string.IsNullOrWhiteSpace(language.SingleLineCommentToken) && line.StartsWith(language.SingleLineCommentToken);
 	}
 }

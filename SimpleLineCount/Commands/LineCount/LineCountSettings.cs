@@ -8,7 +8,11 @@ namespace SimpleLineCount.Commands.LineCount;
 /// </summary>
 public class LineCountSettings : CommandSettings
 {
-	//[Description("Directory used for line counting")]
 	[CommandArgument(0, "<directory>")]
+	[Description("Directory used for line counting")]
 	public string Directory { get; init; } = "";
+
+	[CommandOption("-c|--config")]
+	[Description("Path to a custom configuration file (optional)")]
+	public string ConfigFilePath { get; init; } = "config.json";
 }

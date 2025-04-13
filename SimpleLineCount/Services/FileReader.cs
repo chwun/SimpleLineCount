@@ -15,7 +15,7 @@ public class FileReader(IFileAccess fileAccess, ILineCounting lineCounting, ICon
 	{
 		List<SourceFile> files = [];
 
-		var config = await configReader.GetConfigAsync();
+		var config = await configReader.GetConfigAsync(settings.ConfigFilePath);
 		var languages = config.IncludedLanguages;
 		var languageMapping = CreateFileExtensionMapping(languages);
 		var excludedDirectories = config.ExcludedDirectories;

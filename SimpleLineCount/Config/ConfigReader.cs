@@ -10,16 +10,14 @@ public class ConfigReader(IFileAccess fileAccess) : IConfigReader
 {
 	private readonly IFileAccess fileAccess = fileAccess;
 
-	private const string configFilename = "config.json";
-
 	private Config? config;
 
 	/// <inheritdoc/>
-	public async Task<Config> GetConfigAsync()
+	public async Task<Config> GetConfigAsync(string configFilePath)
 	{
 		if (config is null)
 		{
-			await ReadConfigAsync();
+			await ReadConfigAsync(configFilePath);
 			return config ?? new();
 		}
 
@@ -29,11 +27,12 @@ public class ConfigReader(IFileAccess fileAccess) : IConfigReader
 	/// <summary>
 	/// Reads the configuration from a file
 	/// </summary>
-	private async Task ReadConfigAsync()
+	/// <param name="configFilePath">configuration file path</param>
+	private async Task ReadConfigAsync(string configFilePath)
 	{
 		try
 		{
-			string json = await fileAccess.ReadAllTextAsync(configFilename);
+			string json = await fileAccess.ReadAllTextAsync(configFilePath);
 			config = JsonSerializer.Deserialize<Config>(json);
 		}
 		catch { }
