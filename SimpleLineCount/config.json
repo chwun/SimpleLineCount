@@ -56,6 +56,15 @@
 			"FileExtensions": [ ".css", ".scss", ".sass" ],
 			"SingleLineCommentToken": null,
 			"MultiLineCommentTokens": null
+		},
+		{
+			"Name": "Svelte",
+			"FileExtensions": [ ".svelte" ],
+			"SingleLineCommentToken": "//",
+			"MultiLineCommentTokens": {
+				"StartToken": "<!--",
+				"EndToken": "-->"
+			}
 		}
 	],
 	"ExcludedDirectories": [
@@ -63,6 +72,12 @@
 		".git",
 		"dist",
 		"bin",
-		"obj"
+		"obj",
+		".svelte-kit",
+		"build",
+		"autocomplete",
+		"CoverageReport",
+		"Migrations",
+		"coverage"
 	]
 }
