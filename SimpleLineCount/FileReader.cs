@@ -26,7 +26,7 @@ public class FileReader : IFileReader
 	/// <returns>list of source files</returns>
 	public async Task<List<SourceFile>> ReadFilesAsync(LineCountSettings settings)
 	{
-		List<SourceFile> files = new();
+		List<SourceFile> files = [];
 
 		var config = await configReader.GetConfigAsync();
 		var languages = config.IncludedLanguages;
@@ -81,9 +81,9 @@ public class FileReader : IFileReader
 	/// </summary>
 	/// <param name="languages">languages</param>
 	/// <returns>mapping from file extensions to source file languages</returns>
-	private Dictionary<string, SourceFileLanguage> CreateFileExtensionMapping(List<SourceFileLanguage> languages)
+	private static Dictionary<string, SourceFileLanguage> CreateFileExtensionMapping(List<SourceFileLanguage> languages)
 	{
-		Dictionary<string, SourceFileLanguage> fileExtensionMapping = new();
+		Dictionary<string, SourceFileLanguage> fileExtensionMapping = [];
 
 		foreach (var language in languages)
 		{

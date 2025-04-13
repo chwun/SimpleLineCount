@@ -45,7 +45,7 @@ internal class LineCountCommand : AsyncCommand<LineCountSettings>
 		sw.Stop();
 		TimeSpan duration = sw.Elapsed;
 
-		IReportOutput reportOutput = new ReportOutput();
+		ReportOutput reportOutput = new();
 		reportOutput.WriteReport(report, settings, numberOfFiles, duration);
 
 		return 0;

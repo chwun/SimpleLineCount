@@ -1,6 +1,6 @@
 using Spectre.Console.Cli;
 
-namespace SimpleLineCount.Cli;
+namespace SimpleLineCount;
 
 public class Program
 {

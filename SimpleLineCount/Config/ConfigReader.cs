@@ -6,18 +6,13 @@ namespace SimpleLineCount.Config;
 /// <summary>
 /// Class for reading configuration
 /// </summary>
-public class ConfigReader : IConfigReader
+public class ConfigReader(IFileAccess fileAccess) : IConfigReader
 {
-	private readonly IFileAccess fileAccess;
+	private readonly IFileAccess fileAccess = fileAccess;
 
 	private const string configFilename = "config.json";
 
 	private Config? config;
-
-	public ConfigReader(IFileAccess fileAccess)
-	{
-		this.fileAccess = fileAccess;
-	}
 
 	/// <summary>
 	/// Gets the configuration object

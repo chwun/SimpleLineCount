@@ -15,7 +15,7 @@ public class SourceFileLanguage
 	/// List of file extensions (must be unique)
 	/// Example: "cs", "csx"
 	/// </summary>
-	public List<string> FileExtensions { get; init; } = new();
+	public List<string> FileExtensions { get; init; } = [];
 
 	/// <summary>
 	/// Single line comment token
